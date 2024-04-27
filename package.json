@@ -1,6 +1,10 @@
 {
   "name": "shoetrak-monorepo",
   "private": true,
+  "engineStrict": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -12,9 +16,6 @@
     "@repo/typescript-config": "*",
     "prettier": "^3.2.5",
     "turbo": "latest"
-  },
-  "engines": {
-    "node": ">=18"
   },
   "packageManager": "npm@8.11.0",
   "workspaces": [
