@@ -1,77 +1,63 @@
-# Turborepo starter
+<div align="center">
+  <a style="margin-bottom:1rem" href="https://www.suflex.com.br/" target="_blank">
+    <img src="https://sistemas-shoetrak.github.io/shoetrak-assets/images/shoetrak_logo.svg" alt="Suflex logo" width="250" height="250" />
+  </a>
+  <h2 style="font-size:3rem">
+    Shoetrak
+  </h2>
+</div>
 
-This is an official starter Turborepo.
+Localize seus calçados!
 
-## Using this example
+# Shoetrak Monorepo
 
-Run the following command:
+Mono repositório da Shoetrak, aqui todos os pacotes levam aos calçados.
 
-```sh
-npx create-turbo@latest
+Feito com muito ❤️👟!
+
+## Índice
+
+- [Shoetrak Monorepo](#shoetrak-monorepo)
+  - [Índice](#índice)
+  - [1. Iniciando](#1-iniciando)
+  - [2. Pacotes](#2-pacotes)
+  - [3. Desenvolvendo](#3-desenvolvendo)
+  - [4. Construindo](#4-construindo)
+  - [5. Referências](#5-referências)
+
+## 1. Iniciando
+
+🚧 Em construção 🚧
+
+## 2. Pacotes
+
+- `docs`: documentação do aplicativo.
+- `web`: aplictaivo web.
+- `@repo/ui`: biblioteca de componentes de interface reutilizáveis.
+- `@repo/eslint-config`: configuração de checagem semântica para typescript.
+- `@repo/typescript-config`: configuração compartilhada de typescript.
+
+## 3. Desenvolvendo
+
+Para desenvolver todos os aplicativos e pacotes, utilize o comando a seguir:
+
+```shell
+  cd my-turborepo
+
+  npm run dev
 ```
 
-## What's inside?
+## 4. Construindo
 
-This Turborepo includes the following packages/apps:
+Para construir todos os pacotes e aplicativos, utilize o comando a seguir:
 
-### Apps and Packages
+``` shell
+  cd my-turborepo
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+  npm run build
 ```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
+## 5. Referências
 
 - [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
 - [Caching](https://turbo.build/repo/docs/core-concepts/caching)
