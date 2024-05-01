@@ -1,0 +1,26 @@
+{
+  "name": "@repo/data-domain",
+  "description": "Domínio de dados da Shoetrak.",
+  "author": "Sistema Shoetrak <sistemas.shoetrak@gmail.com>",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist/*",
+    "prisma/schema.prisma"
+  ],
+  "scripts": {
+    "build": "tsup && npm run prm:gen",
+    "dev": "tsup && npm run prm:gen",
+    "prm:gen": "prisma generate",
+    "prm:mig:crt": "prisma migrate dev --create-only",
+    "prm:mig:dpl": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.13.0",
+    "prisma": "^5.13.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "tsup": "^8.0.2"
+  }
+}

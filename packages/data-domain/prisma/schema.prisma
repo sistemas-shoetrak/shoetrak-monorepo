@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(uuid()) @db.Uuid
+  fullName          String            @map("full_name") @db.VarChar(255)
+  email             String            @unique @db.VarChar(255)
+  emailVerified     DateTime?         @map("email_verified") @db.Timestamptz(0)
+  image             String?           @db.VarChar(255)
+  deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
+  buyPlansHistories BuyPlansHistory[]
+  accounts          Account[]
+  sessions          Session[]
+  stores            Store[]
+
+  @@index(fields: [email], name: "users_email_idx", type: BTree)
+  @@map("users")
+}
+
+model Plan {
+  id                String            @id @default(uuid()) @db.Uuid
+  type              PlansTypes        @default(FREE)
+  billed            BilledTypes       @default(BIWEEKLY)
+  price             Decimal           @db.Decimal(10, 2)
+  isActive          Boolean           @default(true) @map("is_active")
+  durationStart     DateTime          @map("duration_start") @db.Timestamptz(0)
+  durationEnd       DateTime          @map("duration_end") @db.Timestamptz(0)
+  deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
+  buyPlansHistories BuyPlansHistory[]
+
+  @@map("plans")
+}
+
+model BuyPlansHistory {
+  id        String    @id @default(uuid()) @db.Uuid
+  isChurn   Boolean   @default(false) @map("is_churn")
+  isFree    Boolean   @default(false) @map("is_free")
+  hadFree   Boolean   @default(false) @map("had_free")
+  plan      Plan      @relation(fields: [planId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  planId    String    @map("plan_id") @db.Uuid
+  user      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId    String    @map("user_id") @db.Uuid
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@index(fields: [planId], name: "buy_plans_histories_plan_id_idx", type: BTree)
+  @@index(fields: [userId], name: "buy_plans_histories_user_id_idx", type: BTree)
+  @@map("buy_plans_histories")
+}
+
+model Account {
+  id                String    @id @default(uuid()) @db.Uuid
+  type              String    @db.VarChar(255)
+  provider          String    @db.VarChar(255)
+  refreshToken      String?   @map("refresh_token") @db.VarChar(255)
+  accessToken       String?   @map("access_token") @db.VarChar(255)
+  expiresAt         Int?      @map("expires_at") @db.Integer
+  tokenType         String?   @map("token_type") @db.VarChar(255)
+  scope             String?   @db.VarChar(255)
+  idToken           String?   @map("id_token") @db.VarChar(255)
+  sessionState      String?   @map("session_state") @db.VarChar(255)
+  providerAccountId String    @map("provider_account_id") @db.VarChar(255)
+  user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId            String    @map("user_id") @db.Uuid
+  deletedAt         DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@unique(fields: [provider, providerAccountId], map: "unique_provider_provider_account_id_idx")
+  @@index(fields: [userId], name: "accounts_user_id_idx", type: BTree)
+  @@map("accounts")
+}
+
+model Session {
+  id           String    @id @default(uuid()) @db.Uuid
+  sessionToken String    @unique @map("session_token") @db.VarChar(255)
+  expires      DateTime  @map("expires_at") @db.Timestamptz(0)
+  user         User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId       String    @map("user_id") @db.Uuid
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@index(fields: [sessionToken], name: "sessions_session_token_idx", type: BTree)
+  @@index(fields: [userId], name: "sessions_user_id_idx", type: BTree)
+  @@map("sessions")
+}
+
+model VerificationToken {
+  token      String    @id @db.VarChar(255)
+  identifier String    @db.VarChar(255)
+  expires    DateTime  @db.Timestamptz(0)
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@unique(fields: [identifier, token], name: "unique_identifier_token_idx")
+  @@map("verification_tokens")
+}
+
+model Store {
+  id          String    @id @default(uuid()) @db.Uuid
+  companyName String    @map("company_name") @db.VarChar(255)
+  cnpj        String    @unique @db.VarChar(255)
+  user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId      String    @map("user_id") @db.Uuid
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  addresses   Address[]
+  products    Product[]
+  sales       Sale[]
+
+  @@index(fields: [userId], name: "stores_user_id_idx", type: BTree)
+  @@map("stores")
+}
+
+model Address {
+  id        String    @id @default(uuid()) @db.Uuid
+  number    String    @db.VarChar(255)
+  zipCode   String    @map("zip_code") @db.VarChar(255)
+  district  String    @db.VarChar(255)
+  street    String    @db.VarChar(255)
+  city      String    @db.VarChar(255)
+  state     String    @db.VarChar(255)
+  store     Store     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storeId   String    @map("store_id") @db.Uuid
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@index(fields: [storeId], name: "addresses_store_id_idx", type: BTree)
+  @@map("addresses")
+}
+
+model Product {
+  id                  String              @id @default(uuid()) @db.Uuid
+  name                String              @db.VarChar(255)
+  description         String?             @db.Text
+  image               Bytes?              @db.ByteA
+  sellPrice           Decimal             @map("sell_price") @db.Decimal(10, 2)
+  buyPrice            Decimal             @map("buy_price") @db.Decimal(10, 2)
+  store               Store               @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storeId             String              @map("store_id") @db.Uuid
+  brand               Brand               @relation(fields: [brandId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  brandId             String              @map("brand_id") @db.Uuid
+  deletedAt           DateTime?           @map("deleted_at") @db.Timestamptz(0)
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt           DateTime            @updatedAt @map("updated_at") @db.Timestamptz(0)
+  productToCategories ProductToCategory[]
+  properties          Property[]
+
+  @@index(fields: [storeId], name: "products_store_id_idx", type: BTree)
+  @@index(fields: [brandId], name: "products_brand_id_idx", type: BTree)
+  @@map("products")
+}
+
+model Brand {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @db.VarChar(255)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  products  Product[]
+
+  @@map("brands")
+}
+
+model ProductToCategory {
+  id         String    @id @default(uuid()) @db.Uuid
+  product    Product   @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId  String    @map("product_id") @db.Uuid
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categoryId String    @map("category_id") @db.Uuid
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@index([productId], name: "product_to_categories_product_id_idx", type: BTree)
+  @@index([categoryId], name: "product_to_categories_category_id_idx", type: BTree)
+  @@map("product_to_categories")
+}
+
+model Category {
+  id                  String              @id @default(uuid()) @db.Uuid
+  name                String              @db.VarChar(255)
+  deletedAt           DateTime?           @map("deleted_at") @db.Timestamptz(0)
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt           DateTime            @updatedAt @map("updated_at") @db.Timestamptz(0)
+  productToCategories ProductToCategory[]
+
+  @@map("categories")
+}
+
+model Property {
+  id        String    @id @default(uuid()) @db.Uuid
+  color     String    @db.VarChar(255)
+  size      String    @db.VarChar(255)
+  quantity  Int       @default(0) @db.Integer
+  product   Product   @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId String    @map("product_id") @db.Uuid
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  sales     Sale[]
+
+  @@index(fields: [productId], name: "properties_product_id_idx", type: BTree)
+  @@map("properties")
+}
+
+model Customer {
+  id         String    @id @default(uuid()) @db.Uuid
+  fullName   String    @map("full_name") @db.VarChar(255)
+  phone      String    @unique @db.VarChar(255)
+  email      String?   @db.VarChar(255)
+  city       String?   @db.VarChar(255)
+  state      String?   @db.VarChar(255)
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz(0)
+  created_at DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updated_at DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  sales      Sale[]
+
+  @@map("customers")
+}
+
+model Sale {
+  id         String    @id @default(uuid()) @db.Uuid
+  quantity   Int       @db.Integer
+  subtotal   Decimal   @db.Decimal(10, 2)
+  customer   Customer  @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customerId String    @map("customer_id") @db.Uuid
+  property   Property  @relation(fields: [propertyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  propertyId String    @map("property_id") @db.Uuid
+  store      Store     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storeId    String    @map("store_id") @db.Uuid
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@index(fields: [customerId], name: "sales_customer_id_idx", type: BTree)
+  @@index(fields: [propertyId], name: "sales_property_id_idx", type: BTree)
+  @@index(fields: [storeId], name: "sales_store_id_idx", type: BTree)
+  @@map("sales")
+}
+
+enum PlansTypes {
+  FREE
+  STARTER
+
+  @@map("plans_types")
+}
+
+enum BilledTypes {
+  BIWEEKLY
+  MONTHLY
+  ANNUALLY
+
+  @@map("billed_types")
+}
