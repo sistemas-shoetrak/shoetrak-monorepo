@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "files": [
     "dist/*",
-    "prisma/schema.prisma"
+    "prisma/*"
   ],
   "scripts": {
     "build": "tsup && npm run prm:gen",

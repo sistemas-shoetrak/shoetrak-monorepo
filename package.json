@@ -1,10 +1,16 @@
 {
   "name": "shoetrak-monorepo",
+  "description": "Mono repositório para aplicativos e pacotes da Shoetrak.",
   "private": true,
   "engineStrict": true,
   "engines": {
     "node": ">=18"
   },
+  "packageManager": "npm@10.5.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -16,10 +22,5 @@
     "@repo/typescript-config": "*",
     "prettier": "^3.2.5",
     "turbo": "latest"
-  },
-  "packageManager": "npm@8.11.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
