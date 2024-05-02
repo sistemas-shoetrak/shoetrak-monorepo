@@ -1,0 +1,53 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+version: 2
+
+updates:
+  # actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # monorepo
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # app
+  - package-ecosystem: npm
+    directory: "/apps/shoetrak-app"
+    schedule:
+      interval: "weekly"
+
+  # docs
+  - package-ecosystem: npm
+    directory: "/apps/shoetrak-docs"
+    schedule:
+      interval: "weekly"
+
+  # data-domain
+  - package-ecosystem: npm
+    directory: "/packages/data-domain"
+    schedule:
+      interval: "weekly"
+
+  # eslint-config
+  - package-ecosystem: npm
+    directory: "/packages/eslint-config"
+    schedule:
+      interval: "weekly"
+
+  # typescript-config
+  - package-ecosystem: npm
+    directory: "/packages/typescript-config"
+    schedule:
+      interval: "weekly"
+
+  # ui
+  - package-ecosystem: npm
+    directory: "/packages/ui"
+    schedule:
+      interval: "weekly"
