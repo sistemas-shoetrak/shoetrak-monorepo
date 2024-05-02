@@ -1,6 +1,6 @@
 <div align="center">
   <a style="margin-bottom:1rem" href="#" target="_blank">
-    <img src="https://sistemas-shoetrak.github.io/shoetrak-assets/images/logo-primary-reduce.svg" alt="Shoetrak logo" width="250" height="auto" />
+    <img src="https://sistemas-shoetrak.github.io/shoetrak-assets/images/logo-reduce-04.jpg" alt="Shoetrak logo" width="250" height="250" />
   </a>
   <h2 style="font-size:3rem">
     Shoetrak
@@ -28,6 +28,9 @@ Feito com muito ❤️👟🎯!
     - [4.3 Pacote Específico](#43-pacote-específico)
     - [4.4 Instalando/Removendo Depêndencias](#44-instalandoremovendo-depêndencias)
   - [5. Construindo](#5-construindo)
+    - [5.1 Todos os Aplicativos e Pacotes](#51-todos-os-aplicativos-e-pacotes)
+    - [5.2 Aplicativo Específico](#52-aplicativo-específico)
+    - [4.3 Pacote Específico](#43-pacote-específico-1)
   - [6. Referências](#6-referências)
     - [6.1 Turbo Repo](#61-turbo-repo)
   - [7. Glosário](#7-glosário)
@@ -51,7 +54,7 @@ Suas principais dependências são:
 
 Suas principais funcionalidades são:
 
-- Agrupar o desenvolvimento de pacotes para o Shoetrak SaaS.
+- Agrupar o desenvolvimento de aplicativos e pacotes para o Shoetrak SaaS.
 
 **Setup Linux:**
 
@@ -80,7 +83,7 @@ Após isso você já terá um ambiente de desenvolvimento pronto para o uso.
 
 ## 2. Estrutura de Diretórios
 
-Representação ASCII da estrutura atual de diretórios do monorepositório.
+Representação ASCII da estrutura atual dos diretórios dos aplicativos e pacotes do mono repositório.
 
 ```
 <root>
@@ -94,10 +97,9 @@ Representação ASCII da estrutura atual de diretórios do monorepositório.
     └── ui
 ```
 
-- **\<root\>** - raiz do projeto, equivalente a `shoetrak-monorepo`;
+- **\<root\>** - raiz do projeto, equivalente a *shoetrak-monorepo*;
 - **apps** - localização dos aplicativos;
 - **packages** - localização dos pacotes reutilizáveis.
-
 
 ## 3. Aplicativos e Pacotes
 
@@ -110,11 +112,11 @@ Os aplicativos e pacotes atualmente contidos neste resporitório são:
 - [**@shoetrak/typescript-config**](./packages/typescript-config/): configuração compartilhada de typescript;
 - [**@shoetrak/ui**](./packages/ui/): biblioteca de componentes de interface reutilizáveis.
 
-Para entender melhor o contexto, desenvolvimento e construção de um aplicativo ou pacote, busque pelo seu arquivo ***README.md***.
+Para entender melhor o contexto, desenvolvimento e construção de um aplicativo ou pacote, procure pelo seu arquivo ***README.md***.
 
 ## 4. Desenvolvendo
 
-Considerando que este é um mono reposítório construido com o turbo, existem algumas formas diferentes de se desenvolver os pacotes e aplicações.
+Considerando que este é um mono reposítório construido com o turbo, existem algumas formas diferentes de se desenvolver as aplicações e pacotes.
 
 ### 4.1 Todos os Aplicativos e Pacotes
 
@@ -160,19 +162,56 @@ Isso executará o comando dev apenas desse pacote, após isso é só seguir com 
 
 ### 4.4 Instalando/Removendo Depêndencias
 
-Para instalar ou remover uma dependência de forma global no mono repositório basta estar na raiz do projeto (shoetrak monorepo) e executar o comando `npm {<install>,<remove>} [-D] <nome_da_dependencia>`, é recomendado que apenas dependências para uso de construção e desenvolvimento sejam instaladas de forma global.
+Para instalar ou remover uma dependência de forma global no mono repositório basta estar na raiz do projeto (*shoetrak-monorepo*) e executar o comando `npm {<install>|<remove>} [-D] <nome_da_dependencia>`, é recomendado que apenas dependências para uso de construção e desenvolvimento sejam instaladas de forma global.
 
-Para instalar dependencias de forma individual nos aplicativos e pacotes, basta utilizar o comando `npm install [-D] <nome_da_dependencia> -w {<nome_do_aplicativo>,<nome_do_pacote>}`. Esta é a forma preferida de instalar depêndencias quando ela for ser utilizada em apenas um local específico.
+Para instalar ou remover dependencias de forma individual nos aplicativos e pacotes, basta utilizar o comando `npm {<install>|<remove>} [-D] <nome_da_dependencia> -w {<nome_do_aplicativo>|<nome_do_pacote>}`. Esta é a forma ideal de instalar depêndencias quando ela for ser utilizada em apenas um local específico.
 
 ## 5. Construindo
 
-Para construir todos os pacotes e aplicativos, utilize o comando a seguir:
+Considerando que este é um mono reposítório construido com o turbo, existem algumas formas diferentes de se construir as aplicações e pacotes.
 
-``` shell
-  cd my-turborepo
+### 5.1 Todos os Aplicativos e Pacotes
+
+Para construir todos os aplicativos e pacotes contidos neste mono repositório ao mesmo tempo, siga o passo a passo abaixo.
+
+**Linux:**
+
+```shell
+  cd shoetrak-monorepo
 
   npm run build
 ```
+
+Isso executará o comando build em todos os aplicativos e pacotes existentes no repositório, após isso todos os pacotes estarão construídos.
+
+### 5.2 Aplicativo Específico
+
+Para contruir um aplicativo específico, siga o passo a passo abaixo.
+
+**Linux:**
+
+```shell
+  cd shoetrak-monorepo/app/<nome_do_aplicativo>
+
+  npm run dev
+```
+
+Isso executará o comando build apenas nesse aplicativo, após isso ele estará construído.
+
+### 4.3 Pacote Específico
+
+Para construir um pacote específico, siga o passo a passo abaixo.
+
+**Linux:**
+
+```shell
+  cd shoetrak-monorepo/packages/<nome_do_pacote>
+
+  npm run build
+```
+
+Isso executará o comando build apenas desse pacote, após isso ele estará construído.
+
 
 ## 6. Referências
 
@@ -193,9 +232,7 @@ Referências de documentações úteis.
   
 - **\[valor\]:** Em um contexto de interface de linha de comandos (CLI), representa um valor opcional e que deve ser substituído por aquilo que descreve. Exemplo: `npm install [-D] <nome_do_pacote>` = `npm run -D typescript` = `npm install typescript`, neste caso o valor `-D` é opcional e pode ser seguramente ignorado.
   
-- **\(valorA|valorB&valorC\):** Em um contexto de interface de linha de comandos (CLI), representa o agrupamento de multiplos valores. Isso indica que aquilo contido deve ser tomado em conjunto, antes do que está fora dele. Exemplo: .
-
-- **\{valorA|valorB&valorC\}:** Em um contexto de interface de linha de comandos (CLI), representam multiplos valores que devem ser substituídos por aquilo que descrevem. Um pipe (|) indica que deve ser utilizado um valor OU o outro. Já o ê comercial (&) indica que ambos valores devem ser utilizados. Exemplo: `npm install [-D] {pacote_a|pacote_c&pdacote_d}`, neste caso o pacote A OU o pacote B devem ser utilizados E o pacote C.
+- **\{valorA|valorB&valorC\}:** Em um contexto de interface de linha de comandos (CLI), representam multiplos valores que devem ser substituídos por aquilo que descrevem. Um pipe (|) indica que deve ser utilizado um valor OU o outro. Já o ê comercial (&) indica que ambos valores devem ser utilizados. Exemplo: `npm install [-D] {pacote_a|pacote_b&pdacote_c}`, neste caso o pacote A OU o pacote B devem ser utilizados E o pacote C.
 
 - **DDL (Data Definition Language):** Linguagem de Definição de Dados.
 São os comandos que interagem com os objetos do banco. São comandos DDL: CREATE, ALTER e DROP.
