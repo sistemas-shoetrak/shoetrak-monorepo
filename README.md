@@ -34,7 +34,6 @@ Feito com muito ❤️👟🎯!
   - [6. Referências](#6-referências)
     - [6.1 Turbo Repo](#61-turbo-repo)
   - [7. Glosário](#7-glosário)
- 
 
 ## 1. Iniciando
 
@@ -97,7 +96,7 @@ Representação ASCII da estrutura atual dos diretórios dos aplicativos e pacot
     └── ui
 ```
 
-- **\<root\>** - raiz do projeto, equivalente a *shoetrak-monorepo*;
+- **\<root\>** - raiz do projeto, equivalente a _shoetrak-monorepo_;
 - **apps** - localização dos aplicativos;
 - **packages** - localização dos pacotes reutilizáveis.
 
@@ -112,7 +111,7 @@ Os aplicativos e pacotes atualmente contidos neste resporitório são:
 - [**@shoetrak/typescript-config**](./packages/typescript-config/): configuração compartilhada de typescript;
 - [**@shoetrak/ui**](./packages/ui/): biblioteca de componentes de interface reutilizáveis.
 
-Para entender melhor o contexto, desenvolvimento e construção de um aplicativo ou pacote, procure pelo seu arquivo ***README.md***.
+Para entender melhor o contexto, desenvolvimento e construção de um aplicativo ou pacote, procure pelo seu arquivo **_README.md_**.
 
 ## 4. Desenvolvendo
 
@@ -162,7 +161,7 @@ Isso executará o comando dev apenas desse pacote, após isso é só seguir com 
 
 ### 4.4 Instalando/Removendo Depêndencias
 
-Para instalar ou remover uma dependência de forma global no mono repositório basta estar na raiz do projeto (*shoetrak-monorepo*) e executar o comando `npm {<install>|<remove>} [-D] <nome_da_dependencia>`, é recomendado que apenas dependências para uso de construção e desenvolvimento sejam instaladas de forma global.
+Para instalar ou remover uma dependência de forma global no mono repositório basta estar na raiz do projeto (_shoetrak-monorepo_) e executar o comando `npm {<install>|<remove>} [-D] <nome_da_dependencia>`, é recomendado que apenas dependências para uso de construção e desenvolvimento sejam instaladas de forma global.
 
 Para instalar ou remover dependencias de forma individual nos aplicativos e pacotes, basta utilizar o comando `npm {<install>|<remove>} [-D] <nome_da_dependencia> -w {<nome_do_aplicativo>|<nome_do_pacote>}`. Esta é a forma ideal de instalar depêndencias quando ela for ser utilizada em apenas um local específico.
 
@@ -212,7 +211,6 @@ Para construir um pacote específico, siga o passo a passo abaixo.
 
 Isso executará o comando build apenas desse pacote, após isso ele estará construído.
 
-
 ## 6. Referências
 
 Referências de documentações úteis.
@@ -229,25 +227,23 @@ Referências de documentações úteis.
 ## 7. Glosário
 
 - **\<valor\>:** Em um contexto de interface de linha de comandos (CLI), representa um valor requerido que deve ser substituído por aquilo que descreve. Exemplo: `npm run <task>` = `npm run dev`, neste caso o valor `dev`é o nome da `task`.
-  
 - **\[valor\]:** Em um contexto de interface de linha de comandos (CLI), representa um valor opcional e que deve ser substituído por aquilo que descreve. Exemplo: `npm install [-D] <nome_do_pacote>` = `npm run -D typescript` = `npm install typescript`, neste caso o valor `-D` é opcional e pode ser seguramente ignorado.
-  
 - **\{valorA|valorB&valorC\}:** Em um contexto de interface de linha de comandos (CLI), representam multiplos valores que devem ser substituídos por aquilo que descrevem. Um pipe (|) indica que deve ser utilizado um valor OU o outro. Já o ê comercial (&) indica que ambos valores devem ser utilizados. Exemplo: `npm install [-D] {pacote_a|pacote_b&pdacote_c}`, neste caso o pacote A OU o pacote B devem ser utilizados E o pacote C.
 
 - **DDL (Data Definition Language):** Linguagem de Definição de Dados.
-São os comandos que interagem com os objetos do banco. São comandos DDL: CREATE, ALTER e DROP.
+  São os comandos que interagem com os objetos do banco. São comandos DDL: CREATE, ALTER e DROP.
 
 - **DML (Data Manipulation Language):** Linguagem de Manipulação de Dados.
-São os comandos que interagem com os dados dentro das tabelas. São comandos DML: INSERT, DELETE e UPDATE.
+  São os comandos que interagem com os dados dentro das tabelas. São comandos DML: INSERT, DELETE e UPDATE.
 
 - **DQL (Data Query Language):** Linguagem de Consulta de dados.
-São os comandos de consulta. São comandos DQL: SELECT (é o comando de consulta). Aqui cabe um parenteses. Em alguns livros o SELECT fica na DML em outros tem esse grupo próprio.
+  São os comandos de consulta. São comandos DQL: SELECT (é o comando de consulta). Aqui cabe um parenteses. Em alguns livros o SELECT fica na DML em outros tem esse grupo próprio.
 
 - **DTL (Data Transaction Language):** Linguagem de Transação de Dados.
-São os comandos para controle de transação. São comandos DTL: BEGIN TRANSACTION, COMMIT E ROLLBACK.
+  São os comandos para controle de transação. São comandos DTL: BEGIN TRANSACTION, COMMIT E ROLLBACK.
 
 - **DCL (Data Control Language):** Linguagem de Controle de Dados.
-São os comandos para controlar a parte de segurança do banco de dados. São comandos DCL: GRANT, REVOKE E DENY.
+  São os comandos para controlar a parte de segurança do banco de dados. São comandos DCL: GRANT, REVOKE E DENY.
 
 ---
 
