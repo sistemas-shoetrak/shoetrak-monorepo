@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+echo "CHECKING COMMIT MESSAGE" && npx --no -- commitlint --edit "$1"
+echo ""
