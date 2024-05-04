@@ -6,6 +6,7 @@ import { Button } from "@ui/components/button";
 import Link from "next/link";
 
 export default function Dashboard() {
+  
   return (
     <div className="w-full lg:min-h-screen">
       <header className="absolute w-full top-0 flex h-16 items-center gap-4 px-4 md:px-6">
