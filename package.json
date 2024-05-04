@@ -26,6 +26,8 @@
     "turbo": "latest"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "@next-auth/prisma-adapter": "^0.4.4-canary.81",
+    "dotenv": "^16.4.5",
+    "next-auth": "^4.24.7"
   }
 }
