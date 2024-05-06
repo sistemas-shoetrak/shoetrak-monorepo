@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prisma:deploy": "dotenv -- turbo prm:mig:dpl"
@@ -26,7 +26,6 @@
     "turbo": "latest"
   },
   "dependencies": {
-    "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "dotenv": "^16.4.5",
     "next-auth": "^4.24.7"
   }
