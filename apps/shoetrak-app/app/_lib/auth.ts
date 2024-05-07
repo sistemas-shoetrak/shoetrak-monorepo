@@ -13,6 +13,10 @@ export const authOptions: AuthOptions = {
       }),
     ],
     callbacks: {
+      async signIn(params) {
+        console.log(params);
+        return true;
+      },
       async session({ session, user }) {
         session.user = { ...session.user, id: user.id } as {
           id: string;

@@ -14,17 +14,18 @@ datasource db {
 }
 
 model User {
-  id                String            @id @default(uuid()) @db.Uuid
-  name              String            @db.VarChar(255)
-  email             String            @unique @db.VarChar(255)
-  emailVerified     DateTime?         @map("email_verified") @db.Timestamptz(0)
-  image             String?           @db.VarChar(255)
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
   deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
   updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
   buyPlansHistories BuyPlansHistory[]
-  accounts          Account[]
-  sessions          Session[]
   stores            Store[]
 
   @@index(fields: [email], name: "users_email_idx", type: BTree)
@@ -55,7 +56,7 @@ model BuyPlansHistory {
   plan      Plan      @relation(fields: [planId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   planId    String    @map("plan_id") @db.Uuid
   user      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userId    String    @map("user_id") @db.Uuid
+  userId    String    @map("user_id")
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
   updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
@@ -66,22 +67,24 @@ model BuyPlansHistory {
 }
 
 model Account {
-  id                String    @id @default(uuid()) @db.Uuid
-  type              String    @db.VarChar(255)
-  provider          String    @db.VarChar(255)
-  refreshToken      String?   @map("refresh_token") @db.VarChar(255)
-  accessToken       String?   @map("access_token") @db.VarChar(255)
-  expiresAt         Int?      @map("expires_at") @db.Integer
-  tokenType         String?   @map("token_type") @db.VarChar(255)
-  scope             String?   @db.VarChar(255)
-  idToken           String?   @map("id_token") @db.VarChar(255)
-  sessionState      String?   @map("session_state") @db.VarChar(255)
-  providerAccountId String    @map("provider_account_id") @db.VarChar(255)
-  user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userId            String    @map("user_id") @db.Uuid
-  deletedAt         DateTime? @map("deleted_at") @db.Timestamptz(0)
-  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
-  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique(fields: [provider, providerAccountId], map: "unique_provider_provider_account_id_idx")
   @@index(fields: [userId], name: "accounts_user_id_idx", type: BTree)
@@ -89,14 +92,16 @@ model Account {
 }
 
 model Session {
-  id           String    @id @default(uuid()) @db.Uuid
-  sessionToken String    @unique @map("session_token") @db.VarChar(255)
-  expires      DateTime  @map("expires_at") @db.Timestamptz(0)
-  user         User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userId       String    @map("user_id") @db.Uuid
-  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz(0)
-  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
-  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index(fields: [sessionToken], name: "sessions_session_token_idx", type: BTree)
   @@index(fields: [userId], name: "sessions_user_id_idx", type: BTree)
@@ -104,15 +109,16 @@ model Session {
 }
 
 model VerificationToken {
-  token      String    @id @db.VarChar(255)
-  identifier String    @db.VarChar(255)
-  expires    DateTime  @db.Timestamptz(0)
-  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz(0)
-  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
-  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
+  identifier String
+  token      String
+  expires    DateTime
+
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
 
   @@unique(fields: [identifier, token], name: "unique_identifier_token_idx")
-  @@map("verification_tokens")
+  @@map("verificationtokens")
 }
 
 model Store {
@@ -120,7 +126,7 @@ model Store {
   companyName String    @map("company_name") @db.VarChar(255)
   cnpj        String    @unique @db.VarChar(255)
   user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userId      String    @map("user_id") @db.Uuid
+  userId      String    @map("user_id")
   deletedAt   DateTime? @map("deleted_at") @db.Timestamptz(0)
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
