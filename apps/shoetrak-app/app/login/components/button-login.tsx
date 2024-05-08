@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "@repo/ui/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
-import { useEffect } from "react";
-import Image from "next/image";
-import googleIcon from "../../../public/assets/google.png";
+import { Button } from '@repo/ui/components/ui/button';
+import { signIn, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import Image from 'next/image';
+import googleIcon from '../../../public/assets/google.png';
 
 const ButtonLogin = () => {
   const { data } = useSession();

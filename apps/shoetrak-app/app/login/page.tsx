@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../_lib/auth";
-import { redirect } from "next/navigation";
-import ButtonLogin from "./components/button-login";
+import Image from 'next/image';
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../_lib/auth';
+import { redirect } from 'next/navigation';
+import ButtonLogin from './components/button-login';
 
 export default async function Login() {
   const session = await getServerSession(authOptions);
