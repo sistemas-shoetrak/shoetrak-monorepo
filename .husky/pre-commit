@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+echo "LINTING" && npm run lint
+echo ""
+
+echo "FORMATTING" && npm run format && git add -A
+echo ""

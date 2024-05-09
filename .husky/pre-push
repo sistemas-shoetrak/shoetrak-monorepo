@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+echo "LINTING" && npm run lint
+echo ""
+
+echo "BUILDING" && npm run build
+echo ""
+
+# add tests when they are ready
+# echo "TESTING" && npm run test
+# echo ""
+
+echo "CHECKING DIFFS" && git diff --cached --name-only --exit-code
+echo ""
