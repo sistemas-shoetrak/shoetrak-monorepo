@@ -12,7 +12,7 @@ const ButtonLogin = () => {
   useEffect(() => {}, [data]);
 
   const handleLoginClick = async () => {
-    await signIn();
+    await signIn("google");
   };
 
   return (
