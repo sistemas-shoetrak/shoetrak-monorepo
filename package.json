@@ -16,7 +16,7 @@
     "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prisma:deploy": "dotenv -- turbo prm:mig:dpl"
+    "prisma:deploy": "dotenv -- turbo prm:mig:dpl",
     "prepare": "husky"
   },
   "devDependencies": {
