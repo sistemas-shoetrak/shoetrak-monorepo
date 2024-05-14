@@ -28,7 +28,7 @@ export default async function Login() {
                 width={28}
                 height={28}
               />
-              <span className="sr-only">Acme Inc</span>
+              <span className="sr-only">Shoetrak</span>
             </Link>
           </nav>
         </header>
