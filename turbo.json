@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["MERCADO_PAGO_ACCESS_TOKEN"],
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {

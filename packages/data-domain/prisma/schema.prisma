@@ -22,47 +22,13 @@ model User {
   deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
   updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
-  buyPlansHistories BuyPlansHistory[]
+  paymentsHistories PaymentsHistory[]
   accounts          Account[]
   sessions          Session[]
   stores            Store[]
 
   @@index(fields: [email], name: "users_email_idx", type: BTree)
   @@map("users")
-}
-
-model Plan {
-  id                String            @id @default(uuid()) @db.Uuid
-  type              PlansTypes        @default(FREE)
-  billed            BilledTypes       @default(BIWEEKLY)
-  price             Decimal           @db.Decimal(10, 2)
-  isActive          Boolean           @default(true) @map("is_active")
-  durationStart     DateTime          @map("duration_start") @db.Timestamptz(0)
-  durationEnd       DateTime          @map("duration_end") @db.Timestamptz(0)
-  deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
-  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
-  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
-  buyPlansHistories BuyPlansHistory[]
-
-  @@map("plans")
-}
-
-model BuyPlansHistory {
-  id        String    @id @default(uuid()) @db.Uuid
-  isChurn   Boolean   @default(false) @map("is_churn")
-  isFree    Boolean   @default(false) @map("is_free")
-  hadFree   Boolean   @default(false) @map("had_free")
-  plan      Plan      @relation(fields: [planId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  planId    String    @map("plan_id") @db.Uuid
-  user      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userId    String    @map("user_id") @db.Uuid
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(0)
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(0)
-  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(0)
-
-  @@index(fields: [planId], name: "buy_plans_histories_plan_id_idx", type: BTree)
-  @@index(fields: [userId], name: "buy_plans_histories_user_id_idx", type: BTree)
-  @@map("buy_plans_histories")
 }
 
 model Account {
@@ -113,6 +79,45 @@ model VerificationToken {
 
   @@unique(fields: [identifier, token], name: "unique_identifier_token_idx")
   @@map("verification_tokens")
+}
+
+model Plan {
+  id                String            @id @default(uuid()) @db.Uuid
+  type              PlansTypes        @default(FREE)
+  billed            BilledTypes       @default(BIWEEKLY)
+  price             Decimal           @db.Decimal(10, 2)
+  isActive          Boolean           @default(true) @map("is_active")
+  durationStart     DateTime          @map("duration_start") @db.Timestamptz(0)
+  durationEnd       DateTime          @map("duration_end") @db.Timestamptz(0)
+  deletedAt         DateTime?         @map("deleted_at") @db.Timestamptz(0)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(0)
+  paymentsHistories PaymentsHistory[]
+
+  @@map("plans")
+}
+
+model PaymentsHistory {
+  id               String        @id @default(uuid()) @db.Uuid
+  paymentType      String?       @map("payment_type") @db.VarChar(255)
+  paymentReference String?       @map("payment_reference") @db.VarChar(255)
+  paymentProving   String?       @map("payment_proving") @db.VarChar(255)
+  paymentStatus    PaymentStatus @default(PENDING) @map("payment_status")
+  amount           Decimal?      @db.Decimal(10, 2)
+  installments     Int?          @default(1)
+  isFree           Boolean       @default(false) @map("is_free")
+  plan             Plan          @relation(fields: [planId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  planId           String        @map("plan_id") @db.Uuid
+  user             User          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId           String        @map("user_id") @db.Uuid
+  createdAt        DateTime      @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt        DateTime      @updatedAt @map("updated_at") @db.Timestamptz(0)
+  paidAt           DateTime?     @map("paid_at") @db.Timestamptz(0)
+  deletedAt        DateTime?     @map("deleted_at") @db.Timestamptz(0)
+
+  @@index(fields: [planId], name: "payments_histories_plan_id_idx", type: BTree)
+  @@index(fields: [userId], name: "payments_histories_user_id_idx", type: BTree)
+  @@map("payments_histories")
 }
 
 model Store {
@@ -260,6 +265,48 @@ model Sale {
   @@map("sales")
 }
 
+model AuditLog {
+  id        String         @id @default(uuid()) @db.Uuid
+  entity    AuditLogEntity
+  action    AuditLogAction
+  before    Json?          @db.Json
+  after     Json?          @db.Json
+  userId    String         @map("user_id") @db.Uuid
+  entityId  String         @map("entity_id") @db.Uuid
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(0)
+
+  @@index(fields: [userId], name: "audit_logs_user_id_idx", type: BTree)
+  @@index(fields: [entityId], name: "audit_logs_entity_id_idx", type: BTree)
+  @@map("audit_logs")
+}
+
+enum AuditLogEntity {
+  USER
+  ACCOUNT
+  SESSION
+  VERIFICATIONTOKEN
+  PLAN
+  PAYMENTSHISTORY
+  STORE
+  ADDRESS
+  PRODUCT
+  BRAND
+  CATEGORY
+  PROPERTY
+  CUSTOMER
+  SALE
+
+  @@map("audit_log_entities")
+}
+
+enum AuditLogAction {
+  CREATE
+  UPDATE
+  DELETE
+
+  @@map("audit_log_actions")
+}
+
 enum PlansTypes {
   FREE
   STARTER
@@ -273,4 +320,13 @@ enum BilledTypes {
   ANNUALLY
 
   @@map("billed_types")
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  CANCELED
+  REFUNDED
+
+  @@map("payment_status")
 }
