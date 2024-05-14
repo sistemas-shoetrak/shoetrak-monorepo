@@ -6,11 +6,11 @@ CREATE TYPE "billed_types" AS ENUM ('BIWEEKLY', 'MONTHLY', 'ANNUALLY');
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" UUID NOT NULL,
-    "full_name" VARCHAR(255) NOT NULL,
-    "email" VARCHAR(255) NOT NULL,
-    "email_verified" TIMESTAMPTZ(0),
-    "image" VARCHAR(255),
+    "id" TEXT NOT NULL,
+    "name" TEXT,
+    "email" TEXT,
+    "email_verified" TIMESTAMP(3),
+    "image" TEXT,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(0) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE "buy_plans_histories" (
     "is_free" BOOLEAN NOT NULL DEFAULT false,
     "had_free" BOOLEAN NOT NULL DEFAULT false,
     "plan_id" UUID NOT NULL,
-    "user_id" UUID NOT NULL,
+    "user_id" TEXT NOT NULL,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(0) NOT NULL,
@@ -51,18 +51,18 @@ CREATE TABLE "buy_plans_histories" (
 
 -- CreateTable
 CREATE TABLE "accounts" (
-    "id" UUID NOT NULL,
-    "type" VARCHAR(255) NOT NULL,
-    "provider" VARCHAR(255) NOT NULL,
-    "refresh_token" VARCHAR(255),
-    "access_token" VARCHAR(255),
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
+    "provider_account_id" TEXT NOT NULL,
+    "refresh_token" TEXT,
+    "access_token" TEXT,
     "expires_at" INTEGER,
-    "token_type" VARCHAR(255),
-    "scope" VARCHAR(255),
-    "id_token" VARCHAR(255),
-    "session_state" VARCHAR(255),
-    "provider_account_id" VARCHAR(255) NOT NULL,
-    "user_id" UUID NOT NULL,
+    "token_type" TEXT,
+    "scope" TEXT,
+    "id_token" TEXT,
+    "session_state" TEXT,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(0) NOT NULL,
@@ -72,10 +72,10 @@ CREATE TABLE "accounts" (
 
 -- CreateTable
 CREATE TABLE "sessions" (
-    "id" UUID NOT NULL,
-    "session_token" VARCHAR(255) NOT NULL,
-    "expires_at" TIMESTAMPTZ(0) NOT NULL,
-    "user_id" UUID NOT NULL,
+    "id" TEXT NOT NULL,
+    "session_token" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(0) NOT NULL,
@@ -84,15 +84,13 @@ CREATE TABLE "sessions" (
 );
 
 -- CreateTable
-CREATE TABLE "verification_tokens" (
-    "token" VARCHAR(255) NOT NULL,
-    "identifier" VARCHAR(255) NOT NULL,
-    "expires" TIMESTAMPTZ(0) NOT NULL,
+CREATE TABLE "verificationtokens" (
+    "identifier" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMPTZ(0) NOT NULL,
-
-    CONSTRAINT "verification_tokens_pkey" PRIMARY KEY ("token")
+    "updated_at" TIMESTAMPTZ(0) NOT NULL
 );
 
 -- CreateTable
@@ -100,7 +98,7 @@ CREATE TABLE "stores" (
     "id" UUID NOT NULL,
     "company_name" VARCHAR(255) NOT NULL,
     "cnpj" VARCHAR(255) NOT NULL,
-    "user_id" UUID NOT NULL,
+    "user_id" TEXT NOT NULL,
     "deleted_at" TIMESTAMPTZ(0),
     "created_at" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(0) NOT NULL,
@@ -248,7 +246,7 @@ CREATE INDEX "sessions_session_token_idx" ON "sessions"("session_token");
 CREATE INDEX "sessions_user_id_idx" ON "sessions"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_tokens"("identifier", "token");
+CREATE UNIQUE INDEX "verificationtokens_identifier_token_key" ON "verificationtokens"("identifier", "token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "stores_cnpj_key" ON "stores"("cnpj");
@@ -293,10 +291,10 @@ ALTER TABLE "buy_plans_histories" ADD CONSTRAINT "buy_plans_histories_plan_id_fk
 ALTER TABLE "buy_plans_histories" ADD CONSTRAINT "buy_plans_histories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "stores" ADD CONSTRAINT "stores_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

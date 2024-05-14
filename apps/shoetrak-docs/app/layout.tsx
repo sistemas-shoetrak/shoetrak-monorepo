@@ -1,4 +1,4 @@
-import "../../../packages/ui/styles/globals.css";
+import "@repo/ui/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
