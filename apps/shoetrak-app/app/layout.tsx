@@ -1,8 +1,11 @@
 import '@repo/ui/styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import AuthProvider from './_providers/auth';
-import { ThemeProvider } from '@/components';
+import AuthProvider from '@/app/_providers/auth';
+import { GetSession } from '@/app/_actions';
+import { redirect } from 'next/navigation';
+import PrivateRoute from '@/app/_providers/private-route';
+import { ThemeProvider } from '@/app/_providers/theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,11 +16,13 @@ export const metadata: Metadata = {
     'shoetrak, app, gestão de calçados, gestão, calçados, estoque, gestão de estoque, controle de estoque, controle, controle de calçados',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  const session = await GetSession();
+
   return (
     <html lang="pt-BR" translate="no">
       <body className={inter.className}>
@@ -27,7 +32,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
+          <PrivateRoute session={session}>
+            <AuthProvider>{children}</AuthProvider>
+          </PrivateRoute>
         </ThemeProvider>
       </body>
     </html>
