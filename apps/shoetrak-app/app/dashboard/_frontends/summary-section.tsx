@@ -1,5 +1,5 @@
-import { CardSummary } from '@/components';
 import { cardSummary } from '@/utils/constants';
+import { CardSummary } from '../_components/card-summary';
 
 export function SummarySection() {
   return (
