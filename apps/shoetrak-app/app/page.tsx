@@ -13,7 +13,7 @@ export default function Page(): JSX.Element {
         Sair
       </Button>
       <Button variant="default">
-        <Link href="/dash">Dashboard</Link>
+        <Link href="/dashboard">Dashboard</Link>
       </Button>
       <Button variant="secondary">
         <Link href="/login">Login</Link>
