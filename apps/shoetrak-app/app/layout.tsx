@@ -6,6 +6,7 @@ import { GetSession } from '@/app/_actions';
 import { redirect } from 'next/navigation';
 import PrivateRoute from '@/app/_providers/private-route';
 import { ThemeProvider } from '@/app/_providers/theme';
+import { DashboardProvider } from '@/modules';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -33,7 +34,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <PrivateRoute session={session}>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <DashboardProvider>{children}</DashboardProvider>
+            </AuthProvider>
           </PrivateRoute>
         </ThemeProvider>
       </body>
