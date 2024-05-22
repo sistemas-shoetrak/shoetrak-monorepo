@@ -21,11 +21,8 @@ import {
 import { GetDashboardData } from '@/app/_actions';
 
 export async function SalesHistory() {
-  // const createCustomer = await CreateCustomer();
   const sales = await GetDashboardData();
 
-  // console.log('createCustomer: ', createCustomer);
-  console.log('sales: ', sales);
   return (
     <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
       <CardHeader className="flex flex-row items-center">
