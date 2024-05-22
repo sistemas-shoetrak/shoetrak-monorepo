@@ -14,7 +14,7 @@
     "prm:gen": "prisma generate",
     "prm:mig:crt": "prisma migrate dev --create-only",
     "prm:mig:dpl": "prisma migrate deploy",
-    "vercel-build": "tsup && npm run prm:gen"
+    "vercel-build": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
