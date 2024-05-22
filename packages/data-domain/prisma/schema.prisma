@@ -250,6 +250,8 @@ model Sale {
   id         String    @id @default(uuid()) @db.Uuid
   quantity   Int       @db.Integer
   subtotal   Decimal   @db.Decimal(10, 2)
+  discount   Decimal   @default(0) @db.Decimal(10, 2)
+  total      Decimal   @db.Decimal(10, 2)
   customer   Customer  @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   customerId String    @map("customer_id") @db.Uuid
   property   Property  @relation(fields: [propertyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
