@@ -1,16 +1,4 @@
-import { authOptions } from '@/app/_lib/auth';
 import { db } from '@/app/_lib/prisma';
-import { getServerSession } from 'next-auth';
-
-export async function GetDashboardData() {
-  const sales = await db.sale.findMany({
-    include: {
-      customer: true,
-    },
-  });
-
-  return sales;
-}
 
 export async function CreateCustomer() {
   const customer = await db.customer.create({
@@ -49,7 +37,7 @@ export async function CreateCustomer() {
   await db.customer.create({
     data: {
       fullName: 'Emma Brown',
-      phone: '1111111113',
+      phone: '1111111114',
       email: 'emma@example.com',
       state: 'Ceará',
       city: 'São Benedito',
@@ -234,21 +222,5 @@ export async function CreateSale() {
     console.log('propertyUpdated: ', propertyUpdated);
   } catch (error) {
     console.log(error);
-  }
-}
-
-export async function GetRecentCustomers() {
-  try {
-    const recentCustomers = await db.customer.findMany({
-      take: 5,
-      orderBy: {
-        created_at: 'desc',
-      },
-    });
-
-    console.log('recentCustomers: ', recentCustomers);
-    return recentCustomers;
-  } catch (error) {
-    console.log('error: ', error);
   }
 }

@@ -18,10 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from '@repo/ui/components/ui/table';
-import { GetDashboardData } from '@/app/_actions';
+import { GetSalesHistory } from '@/app/_actions';
 
 export async function SalesHistory() {
-  const sales = await GetDashboardData();
+  const salesHistory = await GetSalesHistory();
 
   return (
     <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
@@ -49,7 +49,7 @@ export async function SalesHistory() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sales.map((sale) => (
+            {salesHistory?.map((sale) => (
               <TableRow key={sale.id}>
                 <TableCell>
                   <div className="font-medium">{sale?.customer.fullName}</div>
