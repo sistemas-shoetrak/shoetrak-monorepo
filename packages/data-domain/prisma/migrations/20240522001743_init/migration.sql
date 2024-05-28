@@ -208,6 +208,8 @@ CREATE TABLE "sales" (
     "id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "subtotal" DECIMAL(10,2) NOT NULL,
+    "discount" DECIMAL(10,2) NOT NULL DEFAULT 0,
+    "total" DECIMAL(10,2) NOT NULL,
     "customer_id" UUID NOT NULL,
     "property_id" UUID NOT NULL,
     "store_id" UUID NOT NULL,
