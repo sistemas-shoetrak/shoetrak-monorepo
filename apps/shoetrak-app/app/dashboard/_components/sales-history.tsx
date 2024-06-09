@@ -19,6 +19,7 @@ import {
   TableRow,
 } from '@repo/ui/components/ui/table';
 import { GetSalesHistory } from '@/app/_actions';
+import { dateToString } from '@/utils/functions/dateToString';
 
 export async function SalesHistory() {
   const salesHistory = await GetSalesHistory();
@@ -64,7 +65,7 @@ export async function SalesHistory() {
                   </Badge>
                 </TableCell>
                 <TableCell className="md:table-cell">
-                  {new Date(sale.updatedAt).toLocaleDateString('pt-BR')}
+                  {dateToString(sale.updatedAt)}
                 </TableCell>
                 <TableCell className="text-right">$250.00</TableCell>
               </TableRow>

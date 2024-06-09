@@ -1,4 +1,5 @@
 import { db } from '@/app/_lib/prisma';
+import { Sale } from '../../../../../packages/data-domain/dist';
 
 export async function CreateCustomer() {
   const customer = await db.customer.create({
@@ -220,6 +221,27 @@ export async function CreateSale() {
 
     console.log('Sale created', sale);
     console.log('propertyUpdated: ', propertyUpdated);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function CreateManySale(data: any[]) {
+  console.log('data many sale', data);
+  try {
+    const sale = await db.sale.createMany({
+      data: data,
+    });
+    const propertyUpdated = await db.property.update({
+      where: {
+        id: '1888a2fc-31e5-405b-a87e-94cdd0bd7212',
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
+    });
   } catch (error) {
     console.log(error);
   }

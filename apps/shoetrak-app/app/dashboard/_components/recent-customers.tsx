@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@repo/ui/components/ui/card';
 import { GetRecentCustomers } from '@/app/_actions';
+import { dateToString } from '@/utils/functions/dateToString';
 
 export async function RecentCustomers() {
   const recentCustomers = await GetRecentCustomers();
@@ -46,7 +47,7 @@ export async function RecentCustomers() {
               </div>
               <div className="ml-auto font-medium">
                 <p className="text-sm text-muted-foreground">
-                  {new Date(customer.created_at).toLocaleDateString('pt-BR')}
+                  {dateToString(customer.created_at!)}
                 </p>
               </div>
             </div>
