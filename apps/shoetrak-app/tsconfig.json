@@ -1,12 +1,12 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "@shoetrak/typescript/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
       }
-    ],
+    ]
   },
   "include": [
     "next-env.d.ts",
