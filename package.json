@@ -4,7 +4,8 @@
   "private": true,
   "engineStrict": true,
   "engines": {
-    "node": ">=18"
+    "node": ">=22",
+    "npm": ">=10.5.0"
   },
   "packageManager": "npm@10.5.0",
   "workspaces": [
@@ -16,8 +17,7 @@
     "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prisma:deploy": "dotenv -- turbo prm:mig:dpl",
-    "prepare": "husky"
+    "prisma:deploy": "dotenv -- turbo prm:mig:dpl"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -25,7 +25,6 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "dotenv-cli": "^7.4.1",
-    "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "turbo": "^2.3.3"
   },

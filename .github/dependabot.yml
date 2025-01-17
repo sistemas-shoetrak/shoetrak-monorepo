@@ -8,46 +8,46 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # monorepo
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # app
   - package-ecosystem: npm
     directory: "/apps/shoetrak-app"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # docs
   - package-ecosystem: npm
     directory: "/apps/shoetrak-docs"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # data-domain
   - package-ecosystem: npm
     directory: "/packages/data-domain"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # eslint-config
   - package-ecosystem: npm
     directory: "/packages/eslint-config"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # typescript-config
   - package-ecosystem: npm
     directory: "/packages/typescript-config"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   # ui
   - package-ecosystem: npm
     directory: "/packages/ui"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
