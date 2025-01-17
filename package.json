@@ -27,7 +27,7 @@
     "dotenv-cli": "^7.4.1",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "^2.3.3"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
