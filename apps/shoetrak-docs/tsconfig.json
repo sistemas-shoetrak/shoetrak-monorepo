@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "@shoetrak/typescript/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {
@@ -12,7 +12,9 @@
     "next.config.js",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "tailwind.config.js", "postcss.config.js"  ],
+    ".next/types/**/*.ts",
+    "tailwind.config.js",
+    "postcss.config.js"
+  ],
   "exclude": ["node_modules"]
 }
